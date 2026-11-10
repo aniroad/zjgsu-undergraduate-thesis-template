@@ -19,12 +19,10 @@ cover/                两份模板共用的封面（cover.tex 与校徽、校名
 用 git：
 
 ```bash
-git clone <本仓库地址>
+git clone https://github.com/aniroad/zjgsu-undergraduate-thesis-template.git
 cd zjgsu-undergraduate-thesis-template/大论文模板
 quarto render 大论文模板.qmd
 ```
-
-上面的 `<本仓库地址>` 是占位符，仓库建成后会换成真实地址；如果你看到的还是这个占位符，说明 README 尚未更新，直接走下面的 Download ZIP 那条路。
 
 不用 git：在仓库页面点右侧 **Code → Download ZIP**，解压后进 `大论文模板/` 目录，同样执行 `quarto render 大论文模板.qmd`。
 
