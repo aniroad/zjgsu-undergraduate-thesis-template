@@ -1,0 +1,276 @@
+---
+lang: zh-CN
+# ===== 学生填写区 =====
+# 封面以下各项已填示例信息：专业、班级、学号、姓名、日期、指导教师。
+# 以上为示例信息，学生须全部改成自己的；题目与摘要同为示例，也须换成本人的。
+# 各项写法与格式见上级目录《模板填写说明.md》。
+title: "投资者情绪、流动性约束与期权隐含波动率偏差"
+subtitle: "Investor Sentiment, Liquidity Constraints and Option Implied Volatility Spread"
+college: "金融学院"   # 封面不显示这一栏（按老师要求去掉），填了也无妨；如需恢复显示，改 before-body.tex 的 \zjgsuCoverRows 即可
+major: "金融学"
+class: "金融2301"
+studentid: "01234567"   # 示例学号，务必替换；引号保留，否则开头的 0 会丢
+author: "张三"
+advisor: "郭红星"   # 署名示例：学生须改为自己的导师
+yearmonth: "二○二六年十一月十一日"
+abstract: |
+  本文以上证50ETF期权为样本，考察投资者情绪与流动性约束对隐含波动率偏差的影响。结果显示，投资者情绪是影响偏差的主要因素，近月、低行权价期权对情绪变化更为敏感；流动性约束的作用方向随市场状态而变。本文的结论对期权定价与风险管理具有参考价值。
+keywords: "隐含波动率偏差；投资者情绪；流动性约束"
+abstract-en: |
+  Using SSE 50 ETF options, this paper examines how investor sentiment and liquidity constraints affect the implied volatility spread. Sentiment is the dominant factor, and near-month options with low strike prices are more sensitive to sentiment shocks. The effect of liquidity constraints varies with market conditions.
+keywords-en: "Implied Volatility Spread, Investor Sentiment, Liquidity Constraints"
+---
+
+# 引言
+
+看涨看跌平价给出了看涨期权与看跌期权之间的无套利关系。理想情况下，两者隐含波动率应当相等；现实中却常出现系统性偏差。以上证50ETF期权为例，该偏差在样本期内多数为正，说明看跌期权相对看涨期权被高估。已有研究多关注偏差的预测能力，较少讨论其形成机制 [@chen2014]。
+
+本文的边际贡献有两点：一是把投资者情绪与流动性约束放在同一框架下比较；二是区分剩余期限与行权价，识别偏差的来源。后文安排如下：第二部分梳理文献，第三部分说明研究设计，第四部分报告结果，第五部分给出结论。
+
+# 文献综述
+
+## 隐含波动率偏差及其经验事实
+
+隐含波动率偏差的研究思路与传统隐含波动率指标大致相仿。已有文献发现，该指标对未来收益具有一定预测能力 [@atilgan2015]，且与公司特质风险、信息不对称程度相关。
+
+## 投资者情绪与流动性约束
+
+国内研究对情绪代理变量作了改进，并通过主成分分析分离理性与非理性情绪 [@hu2019]。关于流动性，部分研究认为交易活跃度上升会压低隐含波动率，但这一关系在极端行情下并不稳定 [@baker2006]。
+
+与期权市场相邻的一支文献关注金融发展如何改变投资者面临的资金条件：数字金融的空间关联会影响地区收入差距 [@fang2024]；供应链金融则借助信用延伸缓解企业债务风险 [@zhang2025]。这些渠道是否作用于期权定价，目前还没有直接证据，本文因而把注意力放在市场内部的情绪与流动性两类因素上。
+
+# 研究设计
+
+## 数据与样本
+
+### 样本筛选
+
+样本为2017年1月至2020年2月的上证50ETF期权日度数据。先剔除到期前五个交易日的合约，避免临近到期时的价格异常；再剔除当日无成交的合约。筛选后共保留 4 826 个合约日观测。
+
+## 模型设定
+
+基准回归模型为$$
+\mathrm{IVS}_{t}=\alpha+\beta_1 \mathrm{FB}_{t}+\beta_2 \mathrm{TO}_{t}+\gamma X_{t}+\varepsilon_{t}
+$$ {#eq-model}
+
+其中 $X_{t}$ 为控制变量，标准误按 Newey-West 方法调整。残差序列见图 1。
+
+```{=latex}
+\begin{figure}[H]
+\centering
+%% 2026-11-07（第七轮）：PNG 底部白边 80px，按 \textwidth 缩放后合 19.22 磅，
+%% 使「图墨迹底→子图题」达 28.56 磅；扣除白边后与「子图题→下图墨迹顶」同为 9.12 磅。
+\includegraphics[width=\textwidth]{图1/fig1_a.png}\par\vspace{-17.68pt}
+{\fontsize{10.5pt}{16pt}\selectfont （a）隐含波动率偏差与基差的序列图\par}
+%% 范例实测：(a)→(b) 行距 17.80、(b)→图题 18.05；模板原 \vspace{8pt} 使 (b)→图题 23.91
+\vspace{1.90pt}
+\includegraphics[width=\textwidth]{图1/fig1_b.png}\par\vspace{-17.68pt}
+{\fontsize{10.5pt}{16pt}\selectfont （b）隐含波动率偏差与 ETF 换手率的序列图\par}
+\vspace{2.43pt}
+{\fontsize{10.5pt}{16pt}\selectfont\bfseries 图1\quad 隐含波动率偏差与基差/ETF 换手率的序列图\par}
+%% 范例实测：图题墨迹顶 → 图注墨迹顶 18.09 磅，图注行距 15.60 磅
+\vspace{0.79pt}
+%% 2026-11-07（第七轮）：图注与表注同源同参（\tblnote：9pt/16pt、顶格、\raggedright），
+%% 范例图注顶格 x=90.10，模板原为居中 x=135.12。
+\tblnote{注：左轴为隐含波动率偏差（IVS），右轴分别为期货基差（FB）与 ETF 换手率（TO）。}
+\tblnote{数据来源：Wind，作者计算。}
+\end{figure}
+```
+
+# 实证结果
+
+## 描述性统计
+
+主要变量的描述性统计见表 1。IVS 均值约为 0.03，标准差为 0.07，分布明显右偏。
+
+```{=latex}
+\begin{table}[H]
+\centering
+\caption{主要变量描述性统计}
+\label{tbl-desc}
+{\fontsize{10.5pt}{13.77pt}\selectfont
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.0}
+\begin{tabularx}{\textwidth}{@{}l*{8}{>{\centering\arraybackslash}X}@{}}
+\toprule
+变量 & N & 均值 & 标准差 & 最小值 & 25\% & 50\% & 75\% & 最大值\\
+\midrule
+IVS   & 824 & 0.0279 & 0.0671 & $-0.1633$ & $-0.0132$ & 0.0275 & 0.0741 & 0.2177\\
+FB    & 824 & 0.0009 & 0.0136 & $-0.0375$ & $-0.0085$ & 0.0012 & 0.0100 & 0.0396\\
+TO    & 824 & 0.0150 & 0.0075 & 0.0005 & 0.0097 & 0.0143 & 0.0197 & 0.0398\\
+PCR   & 824 & 0.7412 & 0.1836 & 0.2715 & 0.6124 & 0.7531 & 0.8726 & 1.2384\\
+RVIX  & 824 & 0.2185 & 0.0732 & 0.0964 & 0.1708 & 0.2106 & 0.2593 & 0.4721\\
+ILLIQ & 824 & 0.0347 & 0.0218 & 0.0041 & 0.0196 & 0.0301 & 0.0452 & 0.1287\\
+SIZE  & 824 & 21.462 & 0.8934 & 19.120 & 20.845 & 21.512 & 22.106 & 23.874\\
+\bottomrule
+\end{tabularx}
+}
+%% 范例实测：表底线 → 表注墨迹顶 5.40 磅（第 9 页 232.25→237.62），
+%% 模板 tabularx 末行盒深度多出 4.96 磅，故首条注前收 4.96。
+\vspace*{-4.60pt}
+\tblnote{注：50\% 即中位数。样本期为2017年1月至2020年2月，共 824 个日度观测（对应 4 826 个合约日观测）。}
+\tblnote{数据来源：Wind，作者计算。}
+\end{table}
+```
+
+## 回归结果
+
+表 1 显示，基差系数为正、换手率系数为负，与情绪假说的预期一致[^1]。在不同剩余期限上，近月合约的系数更大，说明短端对情绪冲击更敏感。分剩余期限、分行权价格的完整回归结果见表`\ref{tbl-reg}`{=latex}。
+
+```{=latex}
+%% 表2 按范例跨页（范例：表题在正文第 4 页，子表3 落到第 5 页并重复表头）。
+%% tabularx 不能自动断页；longtable 断页时无法换“子表3”标题。故在子表边界
+%% 手工分两块：A＝表题＋子表1＋子表2；B＝续表2＋子表3标题行＋表头＋子表3数据。
+%% 两块各自包 table[H]（避免顶层 \captionof 的 setcaptiontype/hypcap 告警）；
+%% \newpage 保证 B 从下一页开始；若改写表2 内容，需复核这个断页位置。
+\begin{table}[H]
+\centering
+\caption{隐含波动率偏差与基差、ETF 换手率的回归结果}
+%% 范例实测：表2 表题墨迹顶 → “子表1”标签墨迹顶 17.10（表1 同项为 19.55，
+%% Word 表头行内边距不同）；表行距改 15.6 磅带来的 1.15 磅已由
+%% \captionsetup[table]{aboveskip=2.40pt} 统一收掉，本表题下只再收 2.45
+\vspace*{-2.45pt}
+\label{tbl-reg}
+{\fontsize{10.5pt}{13.77pt}\selectfont
+\setlength{\tabcolsep}{0pt}
+\renewcommand{\arraystretch}{1.0}
+\begin{tabularx}{\textwidth}{@{}p{2.6cm}*{6}{>{\centering\arraybackslash}X}@{}}
+\toprule
+\multicolumn{7}{@{}l}{\textbf{子表1：剩余期限1}}\\
+\midrule
+\multirow{2}{*}{变量} & \multicolumn{2}{c}{行权价格1} & \multicolumn{2}{c}{行权价格2} & \multicolumn{2}{c}{行权价格3}\\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+ & 模型1 & 模型2 & 模型3 & 模型4 & 模型5 & 模型6\\
+\midrule
+Const & $-0.1168^{***}$ & $0.1007^{***}$ & $0.0834^{***}$ & $-0.0315^{***}$ & $0.0121^{***}$ & $0.0156^{***}$\\
+ & (0.0441) & (0.0298) & (0.0176) & (0.0097) & (0.0032) & (0.0031)\\
+FB & $0.0038^{***}$ & & $0.0017^{***}$ & & $0.0023^{***}$ & \\
+ & (0.0003) & & (0.0004) & & (0.0005) & \\
+TO & & $0.0107^{***}$ & & $0.0211^{***}$ & & $0.0182^{***}$\\
+ & & (0.0048) & & (0.0057) & & (0.0060)\\
+Adj $R^2$ & 0.31 & 0.29 & 0.47 & 0.45 & 0.61 & 0.62\\
+\midrule
+\multicolumn{7}{@{}l}{\textbf{子表2：剩余期限2}}\\
+\midrule
+\multirow{2}{*}{变量} & \multicolumn{2}{c}{行权价格1} & \multicolumn{2}{c}{行权价格2} & \multicolumn{2}{c}{行权价格3}\\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+ & 模型1 & 模型2 & 模型3 & 模型4 & 模型5 & 模型6\\
+\midrule
+Const & $-0.0765^{***}$ & $0.0891^{***}$ & $0.0522^{***}$ & $-0.0284^{***}$ & $0.0108^{***}$ & $0.0139^{***}$\\
+ & (0.0321) & (0.0261) & (0.0151) & (0.0088) & (0.0029) & (0.0028)\\
+FB & $0.0025^{***}$ & & $0.0012^{***}$ & & $0.0019^{***}$ & \\
+ & (0.0004) & & (0.0004) & & (0.0003) & \\
+TO & & $0.0092^{***}$ & & $0.0176^{***}$ & & $0.0151^{***}$\\
+ & & (0.0039) & & (0.0051) & & (0.0053)\\
+Adj $R^2$ & 0.27 & 0.25 & 0.41 & 0.40 & 0.56 & 0.57\\
+\midrule
+\end{tabularx}
+}
+\end{table}
+
+\newpage
+
+\begin{table}[H]
+\centering
+\caption*{续表2\quad 隐含波动率偏差与基差、ETF 换手率的回归结果}
+\vspace*{-2.45pt}
+{\fontsize{10.5pt}{13.77pt}\selectfont
+\setlength{\tabcolsep}{0pt}
+\renewcommand{\arraystretch}{1.0}
+\begin{tabularx}{\textwidth}{@{}p{2.6cm}*{6}{>{\centering\arraybackslash}X}@{}}
+\toprule
+\multicolumn{7}{@{}l}{\textbf{子表3：剩余期限3}}\\
+\midrule
+\multirow{2}{*}{变量} & \multicolumn{2}{c}{行权价格1} & \multicolumn{2}{c}{行权价格2} & \multicolumn{2}{c}{行权价格3}\\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+ & 模型1 & 模型2 & 模型3 & 模型4 & 模型5 & 模型6\\
+\midrule
+Const & $-0.0512^{***}$ & $0.0714^{***}$ & $0.0416^{***}$ & $-0.0221^{***}$ & $0.0093^{***}$ & $0.0117^{***}$\\
+ & (0.0277) & (0.0231) & (0.0139) & (0.0079) & (0.0026) & (0.0025)\\
+FB & $0.0018^{***}$ & & $0.0009^{***}$ & & $0.0014^{***}$ & \\
+ & (0.0003) & & (0.0003) & & (0.0003) & \\
+TO & & $0.0076^{***}$ & & $0.0142^{***}$ & & $0.0125^{***}$\\
+ & & (0.0033) & & (0.0045) & & (0.0047)\\
+Adj $R^2$ & 0.23 & 0.21 & 0.36 & 0.35 & 0.51 & 0.52\\
+%% 2026-11-07（第七轮）：范例表 2 底部只有一条 1.5 磅粗底线（第 9 页 y=232.25），
+%% 模板原有 0.5 磅细线（\specialrule）+ 1.5 磅底线两条，已删细线。
+\bottomrule
+\end{tabularx}
+}
+\vspace*{-4.60pt}
+\tblnote{注：括号内为 Newey-West 调整后的标准误，滞后阶数按样本长度自动选取；$^{***}$、$^{**}$、$^{*}$ 分别表示 1\%、5\%、10\% 水平上显著。}
+\tblnote{数据来源：Wind，作者计算。}
+\end{table}
+```
+
+#### 稳健性检验
+
+把样本期拆成上下半段重新估计，系数符号未变，说明结论对样本区间不敏感。
+
+[^1]: 本文标准误均按 Newey-West 方法调整。
+
+# 结论
+
+投资者情绪是隐含波动率偏差的主要来源，流动性约束的作用依赖于市场状态。后续研究可结合高频数据，进一步识别情绪冲击的传导路径。
+
+```{=latex}
+\clearpage
+```
+# 参考文献 {.unnumbered}
+
+::: {#refs}
+:::
+
+```{=latex}
+\clearpage
+\zjgsuAppendixHeadOn
+```
+# 附录A　关于主要变量定义的补充材料 {.unnumbered}
+
+```{=latex}
+%% 附录图表独立编号（2026-11-10）：表、图各自从 1 起，冠以“附表”“附图”，
+%% 不与正文表 1—表 2、图 1 共用序号；正文引用一律写“附表1”“附图1”。
+%% 本段须排在正文全部表图之后；若后续更换示例题、增删正文表图，保留本段即可，
+%% 不要把“附表1”写死在 \caption 里。
+\setcounter{table}{0}
+\setcounter{figure}{0}
+\renewcommand{\tablename}{附表}
+\renewcommand{\figurename}{附图}
+```
+
+主要变量的定义见附表1。
+
+```{=latex}
+\begin{table}[H]
+\centering
+\caption{主要变量定义}
+\label{tbl-var-def}
+{\fontsize{10.5pt}{13.77pt}\selectfont
+\setlength{\tabcolsep}{4pt}
+\begin{tabularx}{\textwidth}{@{}p{2.2cm}Xp{2.6cm}@{}}
+\toprule
+变量 & 定义 & 数据来源\\
+\midrule
+IVS & 同一到期日、同一行权价下看跌与看涨期权隐含波动率之差 & Wind\\
+FB & 上证50股指期货近月合约基差，按现货价格归一 & Wind\\
+TO & 上证50ETF日换手率 & Wind\\
+PCR & 看跌期权成交量与看涨期权成交量之比 & Wind\\
+RVIX & 已实现波动率与隐含波动率之差 & 作者计算\\
+ILLIQ & Amihud 非流动性指标 & 作者计算\\
+SIZE & 合约名义规模的自然对数 & Wind\\
+\bottomrule
+\end{tabularx}
+}
+\vspace*{-4.60pt}
+\tblnote{注：变量均按日度频率构造。}
+\tblnote{数据来源：Wind，作者计算。}
+\end{table}
+```
+
+# 附录B　关于稳健性检验的补充材料 {.unnumbered}
+
+把样本期拆成上下半段重新估计，系数符号未变；剔除到期前五个交易日的结果与基准回归一致。受篇幅限制，结果不再列出。
+
+```{=latex}
+\zjgsuAppendixHeadOff
+```

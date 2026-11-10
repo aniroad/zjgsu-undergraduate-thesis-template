@@ -1,0 +1,46 @@
+%% 共用封面（2026-11-10）
+%% 大论文模板与开题报告模板共用这一份：改版式只改这里，两边同时生效。
+%% 调用方在各自 before-body.tex 里先定义下面几个宏，再调用 \zjgsuCover：
+%%   \zjgsuCoverHeading  标题行文字，如“本科毕业论文（设计）正文”
+%%   \zjgsuCoverTitleCN  中文题目（不含“题目：”三字）
+%%   \zjgsuCoverTitleEN  英文题目；留空则不出这一行
+%%   \zjgsuCoverRows     信息栏，每行写成“标　签：&值\cr”
+%%   \zjgsuCoverDate     封面日期
+%% 校徽、校名取自教务处 doc 原件 word/media；实测 校徽 3.65×3.41cm、校名 10.61×2.01cm
+
+\providecommand{\zjgsuCoverHeading}{}
+\providecommand{\zjgsuCoverTitleCN}{}
+\providecommand{\zjgsuCoverTitleEN}{}
+\providecommand{\zjgsuCoverRows}{}
+\providecommand{\zjgsuCoverDate}{}
+%% 信息栏的上留白、下留白、行距：默认值取自大论文 6 行时的成品，
+%% 开题模板沿用默认即可；行数不同的调用方自行覆盖这三项，把字段区重新均分。
+\providecommand{\zjgsuCoverRowsAbove}{0.7cm}
+\providecommand{\zjgsuCoverRowsBelow}{1.1cm}
+\providecommand{\zjgsuCoverRowSkip}{35pt}
+
+\def\zjgsuCover{%
+  \thispagestyle{empty}%
+  \begin{center}%
+  \vspace*{0.3cm}%
+  \includegraphics[width=3.65cm]{../cover/zjgsu-logo.jpg}\par
+  \vspace{0.25cm}%
+  \includegraphics[width=10.6cm]{../cover/zjgsu-name.png}\par
+  \vspace{1.4cm}%
+  {\fontsize{26pt}{34pt}\selectfont\bfseries \zjgsuCoverHeading\par}%
+  \vspace{1.0cm}%
+  %% 《要求》封面：题目/英文题目三号加粗，行距固定 35 磅
+  {\fontsize{16pt}{35pt}\selectfont\bfseries 题目：\zjgsuCoverTitleCN\par}%
+  \ifx\zjgsuCoverTitleEN\empty\else
+    {\fontsize{16pt}{35pt}\selectfont\bfseries \zjgsuCoverTitleEN\par}%
+  \fi
+  \vspace{\zjgsuCoverRowsAbove}%
+  %% 信息栏 16pt 加粗，行距由 \zjgsuCoverRowSkip 给；整块（标签列＋值列）以版心为中心居中
+  {\fontsize{16pt}{\zjgsuCoverRowSkip}\selectfont\bfseries
+  \setbox0=\vbox{\tabskip=0pt\halign{\hfil##\quad&##\hfil\cr \zjgsuCoverRows}}\par
+  \begingroup\centering\noindent\box0\par\endgroup}%
+  \vspace{\zjgsuCoverRowsBelow}%
+  {\fontsize{16pt}{20pt}\selectfont\bfseries \zjgsuCoverDate\par}%
+  \end{center}%
+  \newpage
+}

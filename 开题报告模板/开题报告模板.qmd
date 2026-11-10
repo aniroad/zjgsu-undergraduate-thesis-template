@@ -1,0 +1,67 @@
+---
+lang: zh-CN
+# ===== 学生填写区 =====
+# 封面三栏已填示例信息：专业、班级、学号（另有日期）；开题封面按学校表式没有姓名、学院栏。
+# 以上为示例信息，学生须全部改成自己的；题目与正文各项论证同为示例，也须换成本人的。
+# 各项写法与格式见上级目录《模板填写说明.md》。
+title: "投资者情绪、流动性约束与期权隐含波动率偏差"
+subtitle: "Investor Sentiment, Liquidity Constraints and Option Implied Volatility Spread"
+major: "金融学"
+class: "金融2301"
+studentid: "01234567"   # 示例学号，务必替换；引号保留，否则开头的 0 会丢
+yearmonth: "二○二六年十一月十一日"
+suppress-bibliography: true
+---
+
+```{=latex}
+\begin{zjgsuBox}
+\textbf{毕业论文（设计）题目：}投资者情绪、流动性约束与期权隐含波动率偏差
+\end{zjgsuBox}
+```
+
+```{=latex}
+\begin{zjgsuBox}
+\textbf{毕业论文（设计）研究的意义：}
+```
+
+（1）拟研究的基本问题。看涨看跌平价要求同一到期日、同一行权价的看涨与看跌期权隐含波动率相等。上证50ETF期权市场上，两者长期存在系统性差异。本文要回答的是：这一差异由投资者情绪驱动，还是由流动性约束造成，以及两类因素在不同剩余期限、不同行权价上的作用是否不同。
+
+（2）研究的理论价值与应用价值。理论上，本文把行为金融中的情绪假说与市场微观结构中的流动性约束放在同一框架内比较，有助于解释隐含波动率曲面的偏斜。应用上，结论可用于期权做市商的风险对冲与监管部门的异常交易监测。
+
+（3）拟解决问题的基本方法。以2017年1月至2020年2月的日度数据为样本，构造看跌—看涨隐含波动率之差作为被解释变量，以期货基差、ETF换手率及情绪代理变量为解释变量，采用Newey-West调整的时序回归，并按剩余期限分组检验。相关文献的典型做法见 [@chen2014] 与 [@atilgan2015]。
+
+（4）文献基本情况。国内文献多关注情绪指标的构造与预测能力 [@hu2019]；国外文献侧重偏差与未来收益的关系 [@baker2006]。与期权市场相邻的研究关注金融发展对投资者资金条件的影响，如数字金融的空间关联 [@fang2024] 以及供应链金融的信用延伸 [@zhang2025]。现有研究较少同时考察情绪与流动性，也未系统区分期限结构，这正是本文的切入点。
+
+```{=latex}
+\end{zjgsuBox}
+```
+
+```{=latex}
+\begin{zjgsuBox}
+\textbf{毕业论文（设计）的提纲：}
+```
+
+```{=latex}
+一、引言\par
+二、文献综述\par
+三、研究设计\par
+四、实证结果\par
+五、结论\par
+```
+
+主要参考文献：
+
+```{=latex}
+{\wuhao
+\setlength{\parindent}{0pt}
+\hangindent=2em\hangafter=1 [1] 陈蓉、林秀雀，2014，《波动率偏斜与风险中性偏度能预测尾部风险吗》，《管理科学学报》第8期，第113-126页。\par
+\hangindent=2em\hangafter=1 [2] 胡昌生、程志富、陈晶、陈聪，2019，《ETF期权隐含偏度、投资者情绪的理性与非理性》，《系统管理学报》第8期，第1073-1084页。\par
+\hangindent=2em\hangafter=1 [3] Atilgan, Y., T. G. Bali, and K. O. Demirtas, 2015, “Implied volatility spreads and expected market returns”, \textit{Journal of Business and Economic Statistics}, 33(1): 87-101.\par
+\hangindent=2em\hangafter=1 [4] 方霞、谭龙昕、吴洁，2024，《数字金融空间关联、学习效应与地区收入差距收敛》，《系统工程理论与实践》第12期，第3877-3895页。\par
+\hangindent=2em\hangafter=1 [5] 张云、杨振宇、方霞、杨柳，2025，《供应链金融、信用延伸与企业债务风险缓释》，《经济研究》第11期，第238-260页。\par
+}
+```
+
+```{=latex}
+\end{zjgsuBox}
+```

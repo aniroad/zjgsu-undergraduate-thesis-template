@@ -1,0 +1,23 @@
+%% 开题报告封面（自动生成，学生不要改这个文件）
+%% 改题目、专业、班级、学号、日期请改 开题报告模板.qmd 顶部 YAML 区
+%% 封面版式在 ../cover/cover.tex，与大论文模板共用；这里只传文字
+
+\providecommand{\zjgsuTitle}{}
+\renewcommand{\zjgsuTitle}{$title$}
+%% ctexart 在 \begin{document} 时会重置字号，这里再固定一次正文小四、20 磅
+\renewcommand{\normalsize}{\fontsize{12pt}{20pt}\selectfont}
+\fontsize{12pt}{20pt}\selectfont
+
+\input{../cover/cover.tex}
+\def\zjgsuCoverHeading{本科毕业论文开题报告}
+\def\zjgsuCoverTitleCN{$title$}
+\def\zjgsuCoverTitleEN{$subtitle$}
+%% 开题表式：只有专业、班级、学号三栏，没有学院、姓名、指导教师
+\def\zjgsuCoverRows{专　　业：&$major$\cr
+班　　级：&$class$\cr
+学　　号：&$studentid$\cr}
+\def\zjgsuCoverDate{$yearmonth$}
+\zjgsuCover
+
+\pagenumbering{arabic}
+\setcounter{page}{1}

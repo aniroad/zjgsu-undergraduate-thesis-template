@@ -1,0 +1,76 @@
+%% 封面、中英文摘要、目录（自动生成，学生不要改这个文件）
+%% 需要改题目、姓名、摘要时，改 大论文模板.qmd 顶部 YAML 区
+%% 封面版式在 ../cover/cover.tex，与开题报告模板共用；这里只传文字
+%% 页眉第二行“题目：”后自动填入论文题目
+\providecommand{\zjgsuTitle}{}
+\renewcommand{\zjgsuTitle}{$title$}
+%% ctexart 在 \begin{document} 时会重置字号，这里再固定一次正文小四、20 磅
+\renewcommand{\normalsize}{\fontsize{12pt}{20pt}\selectfont}
+\fontsize{12pt}{20pt}\selectfont
+
+\input{../cover/cover.tex}
+\def\zjgsuCoverHeading{本科毕业论文（设计）正文}
+\def\zjgsuCoverTitleCN{$title$}
+\def\zjgsuCoverTitleEN{$subtitle$}
+%% 《正文模板》段 18–20：学院/专业/班级/学号/姓名/指导教师
+%% 2026-11-07 主人明令字段值「连同标签一起居中」——整块（标签列＋值列）
+%% 以版心为中心居中，标签仍右对齐、值仍左对齐，列内不错位。
+%% 2026-11-10：按主人指令**去掉“学院”一行**（学校原件封面是有学院栏的，此处为有意去掉，
+%% 不是漏改，别再加回去）。学院值仍留在 .qmd 的 college 键里，只是不再渲染。
+%% 行数由 6 变 5 后重新均分字段区：省下的一行 35 磅，用来把字段区上下留白补成相等
+%% （原来上 20.2、下 35.2 磅），其余摊到 4 个行间；实测 上下留白 34.7、行距 40.0 磅，
+%% 字段区整体占位与日期位置仍与 6 行时重合。
+\def\zjgsuCoverRowsAbove{34.40pt}
+\def\zjgsuCoverRowsBelow{30.85pt}
+\def\zjgsuCoverRowSkip{40pt}
+\def\zjgsuCoverRows{专　　业：&$major$\cr
+班　　级：&$class$\cr
+学　　号：&$studentid$\cr
+学生姓名：&$author$\cr
+指导教师：&$advisor$\cr}
+\def\zjgsuCoverDate{$yearmonth$}
+\zjgsuCover
+
+%% ---------- 中文摘要 ----------
+%% 范例：封面不编页码；摘要、目录用阿拉伯数字 1、2、3；正文重新从 1 开始
+\pagenumbering{arabic}
+\setcounter{page}{1}
+%% 范例段 23：中文题目三号黑体加粗居中，上下各空一行；
+%% 标题→摘要实测 57.88 磅（模板原先 43.48，补 14.4 磅）
+\vspace*{20pt}
+\begin{center}
+{\heiti\fontsize{16pt}{24pt}\selectfont\bfseries $title$\par}
+\end{center}
+\vspace{34.4pt}
+{\xiaosi\noindent\hspace*{2em}\textbf{摘\quad 要：}$abstract$\par}
+
+%% 范例摘要末行→关键词 20.00 磅，不加额外空行
+{\xiaosi\noindent\hspace*{2em}\textbf{关键词：}$keywords$\par}
+%% 2026-11-07 主人明令：中文摘要之后不强制换页。范例第 2 页关键词（439.79）
+%% 与英文题目（500.54）同页接排，墨迹间距 60.75 磅；此处按同一间距接排。
+\vspace*{14.70pt}
+
+%% ---------- 英文摘要 ----------
+\begin{center}
+%% 范例段 28：英文题目居中、16pt 加粗，w:line="360" w:lineRule="auto"（1.5 倍行距），
+%% LibreOffice 渲染为行距 46.80 磅（实测 500.54→547.34）
+{\fontsize{16pt}{46.8pt}\selectfont\bfseries $subtitle$\par}
+\end{center}
+%% 范例第 2 页：英文题目末行 y=547.34 → Abstract 首行 y=622.36，75.02pt（实测）
+\vspace{52.34pt}
+%% 范例段 30：Abstract 首行缩进 2 字符 = 24.0pt（正文模板 306070 EMU=24.1pt）
+{\xiaosi\noindent\hspace*{2em}\textbf{Abstract:} $abstract-en$\par}
+
+{\xiaosi\noindent\hspace*{2em}\textbf{Keywords:} $keywords-en$\par}
+\newpage
+
+%% ---------- 目录 ----------
+\renewcommand{\contentsname}{正文目录}
+\vspace*{-5.6pt}
+\tableofcontents
+\newpage
+
+%% ---------- 正文从 1 开始编页码 ----------
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\vspace*{-15.3pt}

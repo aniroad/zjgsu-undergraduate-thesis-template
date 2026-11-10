@@ -1,0 +1,299 @@
+%% =====================================================================
+%% 浙江工商大学本科毕业论文（设计）Quarto/LaTeX 样式文件
+%% 基准：《浙江工商大学正文格式范例20260427.docx》实测（2026-11-06）
+%% 说明：范例与《正文格式要求》文字冲突处，一律以范例实际排版为准，
+%%       冲突已记入 操作说明.md 第 10 节。
+%% 本文件只管格式，不写内容。学生一般不需要改这里。
+%% =====================================================================
+
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{etoolbox}
+\usepackage{zhnumber}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{caption}
+\usepackage{fancyhdr}
+\usepackage{pifont}
+\usepackage[perpage]{footmisc}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{float}
+\usepackage{framed}
+\usepackage{enumitem}
+\setlist[itemize]{itemsep=0pt,topsep=0pt,parsep=0pt,leftmargin=2em}
+
+%% ---------- 1. 中文字体：按操作系统自动降级 ----------
+%% 2026-11-07（第七轮）：Quarto 模板默认 \defaultfontfeatures{Scale=MatchLowercase}
+%% 会把所有字体按 x 高度再缩放一次（实测 12pt 只排出 11.37bp，比范例 12.00 小 5.25%）。
+%% 下面复位为 Scale=1，字号严格等于 \fontsize 的设定值，与范例逐字宽一致。
+\defaultfontfeatures{Scale=1}
+%% Windows: SimSun / SimHei；macOS: Songti SC / Heiti SC；
+%% Linux（本机）: Noto Serif/Sans CJK SC。找不到就退回 Fandol。
+\IfFontExistsTF{SimSun}
+  {\setCJKmainfont{SimSun}[AutoFakeBold=2.5]}
+  {\IfFontExistsTF{Songti SC}
+    {\setCJKmainfont{Songti SC}[AutoFakeBold=2.5]}
+    {\IfFontExistsTF{Noto Serif CJK SC}
+      {\setCJKmainfont{Noto Serif CJK SC}[AutoFakeBold=2.5]}
+      {\setCJKmainfont{FandolSong}}}}
+
+\IfFontExistsTF{SimHei}
+  {\setCJKsansfont{SimHei}}
+  {\IfFontExistsTF{Heiti SC}
+    {\setCJKsansfont{Heiti SC}}
+    {\IfFontExistsTF{Noto Sans CJK SC}
+      {\setCJKsansfont{Noto Sans CJK SC}}
+      {\setCJKsansfont{FandolHei}}}}
+
+%% 西文与阿拉伯数字：Times New Roman（找不到用 Times 等价字体）
+%% 2026-11-07（第七轮续）：西文同样复位 Scale，否则 16pt 英文题目实际只有 14.23bp
+\IfFontExistsTF{Times New Roman}
+  {\setmainfont{Times New Roman}[Scale=1]}
+  {\setmainfont{TeX Gyre Termes}[Scale=1]}
+
+%% 日期里的“○”按中文全角圆排（2026-11-10）
+%% 封面日期写作“二○二六年十一月十一日”，其中的圈是 WHITE CIRCLE U+25CB，不在
+%% xeCJK 默认中文区段内，会被 Times 接走：字形窄一圈，左右各多出约 4 磅中西文间距，
+%% 印出来像“二 ○ 二”。归入 CJK 类后交宋体排，宽度与“〇”一致（16pt 下 15.94 磅）。
+\xeCJKDeclareCharClass{CJK}{"25CB}
+
+%% 正文用宋体、标题用黑体
+\providecommand{\songti}{}
+\providecommand{\heiti}{}
+\renewcommand{\songti}{\rmfamily}
+\renewcommand{\heiti}{\sffamily}
+
+%% ---------- 2. 字号别名（中文习惯） ----------
+\newcommand{\xiaosi}{\fontsize{12pt}{20pt}\selectfont}   % 小四，固定 20 磅
+\newcommand{\sihao}{\fontsize{14pt}{28pt}\selectfont}    % 四号，2 倍行距
+\newcommand{\sanhao}{\fontsize{16pt}{20pt}\selectfont}   % 三号
+\newcommand{\wuhao}{\fontsize{10.5pt}{16pt}\selectfont}  % 五号
+\newcommand{\xiaowu}{\fontsize{9pt}{16pt}\selectfont}    % 小五，表注/图注 16 磅
+
+%% 表注：小五宋体，固定 16 磅，顶格（范例第 7 页第 15-18 行）
+\newcommand{\tblnote}[1]{\par\begingroup\raggedright\fontsize{9pt}{16pt}\selectfont\noindent #1\par\endgroup}
+
+%% ---------- 3. 正文：小四宋体，固定 20 磅，首行缩进 2 字符 ----------
+%% 字号来源：_quarto.yml 的 classoption 里 zihao=-4（ctexart 默认五号 10.5pt，
+%% 必须显式改成小四）。不要再用 Quarto 的 linestretch——它生成的 \setstretch
+%% 会按 ctex 保存的旧字号重新选字，把正文打回 10.5pt（2026-11-06 实测）。
+\renewcommand{\normalsize}{\fontsize{12pt}{20pt}\selectfont}
+\AtBeginDocument{\fontsize{12pt}{20pt}\selectfont}
+\setlength{\parindent}{2em}         % 2 字符 = 24 磅（范例实测 24 磅）
+\linespread{1}
+\setlength{\parskip}{0pt}
+
+%% ---------- 4. 标题：严格按范例样式表 ----------
+%% 一级 一、 四号(14pt)宋体加粗，居中，行距 2 倍(28pt)，上下各空一行
+%% 二级 （一）小四(12pt)，左对齐空两格，固定 20 磅，不空行
+%% 三级 1. 小四，空两格，固定 20 磅
+%% 四级 （1）小四，与正文连排
+\renewcommand{\thesection}{\zhnum{section}、}
+\renewcommand{\thesubsection}{（\zhnum{subsection}）}
+\renewcommand{\thesubsubsection}{\arabic{subsubsection}.}
+\renewcommand{\theparagraph}{（\arabic{paragraph}）}
+
+\newif\ifzjgsuPostSection
+\newcommand{\zjgsuSectionAfter}{\par\vspace*{3.38pt}\global\zjgsuPostSectiontrue}
+\titleformat{\section}[block]
+  {\centering\songti\fontsize{14pt}{28pt}\selectfont\bfseries}
+  {\thesection}{0em}{}[{\zjgsuSectionAfter}]
+%% 范例实测：一级标题上距 45.33 磅；一级标题下距对“下一行”统一 66.00 磅
+%% （范例 page 5：102.97→168.64 接正文、273.87→339.79 接二级，都是 ≈65.8）
+%% titlesec 段后只能给一个值：直接接正文时得 62.66，接二级时得 65.99（差 3.38）。
+%% 故段后取 41.2 + 统一补 3.38（→ 接正文 66.04）。
+%% 2026-11-07（第七轮）：主人肉眼验收指一级标题前后空白偏大。按 300dpi 像素带
+%% 量「墨迹空白」：范例 34.32 / 52.56 / 52.80，模板为 35.04 / 53.76 / 53.52。
+%% 故段前 19 → 18.3（−0.72），段后 41.2 → 40.25（−0.96，接正文 52.80、接二级 52.56）。
+%% 2026-11-07（第七轮续）：消除 Scale=MatchLowercase 后字形恢复 12.00bp，墨迹空白回缩
+%% 0.36～0.90，故段前 18.3 → 19.20、段后 40.25 → 40.61（实测空白 52.56 / 34.32）。
+%% 2026-11-10：段后收紧（主人指令）。依据是明文而非观感——《正文格式要求》（一）
+%% “一级标题居中，上下各空一行”，示例行注“一级标题行间距2倍，居中，上下各空一行”；
+%% 范例 docx 的“毕业论文一级标题”样式（styleId a）只写 w:line=480（2 倍），
+%% 无 w:before/w:after，即段前段后为 0，靠前后各一个空段实现“上下各空一行”。
+%% 空一行＝正文 20 磅行盒，折成墨迹空白约 28～30 磅；原段后 40.61＋3.38 使墨迹空白
+%% 达 51.53，等于空了两行多。现段后取与段前同值 19.20（＋3.38 补正），实测各章
+%% 墨迹空白 30.1 磅，与“上下各空一行”相符，也与主人给的“30pt 上下、约一行半”一致。
+\AddToHook{para/begin}{\global\zjgsuPostSectionfalse}
+\titlespacing{\section}{0pt}{19.20pt}{19.20pt}
+%% 二级标题的行盒与正文等高，紧跟一级时减 3.38（抵掉上面统一补的 3.38）
+\AddToHook{cmd/subsection/before}{%
+  \ifzjgsuPostSection \vspace*{-3.38pt}\global\zjgsuPostSectionfalse \fi}
+%% 三级标题为加粗小四，行盒比正文高 1.62；减 1.62 使“正文/二级 → 三级”
+%% 与“三级 → 正文”都回到 20.00（范例无三级实例，按《要求》固定 20 磅）
+\AddToHook{cmd/subsubsection/before}{%
+  \ifzjgsuPostSection \vspace*{-3.38pt}\global\zjgsuPostSectionfalse
+  \else \vspace*{-1.62pt}\fi}
+\newcommand{\zjgsuSubsubAfter}{\par\vspace*{1.75pt}}
+
+%% 不编号的一级标题（参考文献、附录、致谢）：范例第 10 页实测 12pt 宋体、
+%% 加粗、左对齐顶格、无编号、段前段后 0、标题→首条 22.21 磅
+%% （模板 22.44；范例那半页空白是 12 个空段造成，属事故性留白，不复刻）。
+%% 范例无「附录」实体，附录按同类无编号一级标题同一格式。
+\titleformat{name=\section,numberless}[block]
+  {\songti\fontsize{12pt}{20pt}\selectfont\bfseries}
+  {}{0em}{}
+\titlespacing{name=\section,numberless}{0pt}{0pt}{0pt}
+
+%% 附录区间：无编号一级标题，但版式与编号一级标题（一、二、……）一致。
+%% 2026-11-10：附录 A/B 要求“与其他一级标题并列”，故进入附录时临时把
+%% numberless 节标题切到四号宋体加粗居中（与 \section 同参），出附录再切回
+%% 参考文献式（12pt 左对齐顶格）。切换由 .qmd 里的 \zjgsuAppendixHeadOn/Off 触发。
+\newcommand{\zjgsuAppendixHeadOn}{%
+  \titleformat{name=\section,numberless}[block]
+    {\centering\songti\fontsize{14pt}{28pt}\selectfont\bfseries}{}{0em}{}[{\zjgsuSectionAfter}]%
+  \titlespacing{name=\section,numberless}{0pt}{19.20pt}{19.20pt}}
+\newcommand{\zjgsuAppendixHeadOff}{%
+  \titleformat{name=\section,numberless}[block]
+    {\songti\fontsize{12pt}{20pt}\selectfont\bfseries}{}{0em}{}%
+  \titlespacing{name=\section,numberless}{0pt}{0pt}{0pt}}
+
+%% 二级/三级/四级：小四宋体加粗（范例样式 a0/a1/a2 均 basedOn a，继承 w:b）
+\titleformat{\subsection}[block]
+  {\songti\fontsize{12pt}{20pt}\selectfont\bfseries}
+  {\thesubsection}{0em}{}
+\titlespacing{\subsection}{2em}{0pt}{0pt}
+
+\titleformat{\subsubsection}[block]
+  {\songti\fontsize{12pt}{20pt}\selectfont\bfseries}
+  {\thesubsubsection}{0em}{}[{\zjgsuSubsubAfter}]
+\titlespacing{\subsubsection}{2em}{0pt}{0pt}
+
+\titleformat{\paragraph}[runin]
+  {\songti\fontsize{12pt}{20pt}\selectfont\bfseries}
+  {\theparagraph}{0em}{}
+\titlespacing*{\paragraph}{2em}{0pt}{0.5em}
+
+%% ---------- 5. 目录：正文目录（三号黑体居中，上下空一行） ----------
+%% 条目小四宋体、固定 20 磅；二级缩进 2 字符；页码置最右；点线
+\AtBeginDocument{%
+  \renewcommand{\contentsname}{正文目录}%
+  \setcounter{tocdepth}{2}%
+}
+\renewcommand{\cfttoctitlefont}{\hspace*{\fill}\heiti\fontsize{16pt}{20pt}\selectfont\bfseries}
+\renewcommand{\cftaftertoctitle}{\hspace*{\fill}\par}
+\setlength{\cftbeforetoctitleskip}{0pt}
+\setlength{\cftaftertoctitleskip}{34.4pt}
+\renewcommand{\cftsecfont}{\songti\fontsize{12pt}{20pt}\selectfont}
+\renewcommand{\cftsecpagefont}{\fontsize{12pt}{20pt}\selectfont}
+\renewcommand{\cftsubsecfont}{\songti\fontsize{12pt}{20pt}\selectfont}
+\renewcommand{\cftsubsecpagefont}{\fontsize{12pt}{20pt}\selectfont}
+%% 编号与标题之间只留一个半角空格；一级编号宽 2 字符、二级 3 字符
+\setlength{\cftsecnumwidth}{25.5pt}
+\setlength{\cftsubsecnumwidth}{35.3pt}
+\setlength{\cftsubsecindent}{30.7pt}
+\renewcommand{\cftsecaftersnum}{\hspace{7.5pt}}
+\renewcommand{\cftsubsecaftersnum}{\hspace{6pt}}
+\renewcommand{\cftsubsecaftersnumb}{\hspace{0.5pt}}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}}
+%% 点线密度（范例点距约 6 磅）
+\renewcommand{\cftdotsep}{1}
+\setlength{\cftbeforesecskip}{0pt}
+\setlength{\cftbeforesubsecskip}{0pt}
+
+%% ---------- 6. 图表题注 ----------
+%% 表题：五号宋体加粗，表上方居中；表号与题名空两格（范例实测约 12 磅）
+%% 图题：五号宋体加粗，图下方居中；图号与题名空一格
+%% 范例实测：表题墨迹顶 → 表首行墨迹顶 19.55（表 1）/17.10（表 2）；
+%%           图题 → 图注 18.09。故题注行盒取 16 磅（原 20 磅偏高 4），另设下方间距。
+\DeclareCaptionFont{wuhao}{\fontsize{10.5pt}{16pt}\selectfont}
+\DeclareCaptionLabelFormat{zhnum}{#1#2}
+\captionsetup{
+  font=wuhao,
+  labelfont={bf},
+  textfont={bf},
+  labelformat=zhnum,
+  singlelinecheck=true
+}
+\captionsetup[table]{labelsep=quad,position=top}
+\captionsetup[figure]{labelsep=space,position=bottom}
+%% 题注与表体/图体的垂直间距：caption 包默认上下各 10pt 偏大，
+%% 范例表题→表首行 17.10～19.55、图题→图注 18.09
+\setlength{\abovecaptionskip}{10pt}
+\setlength{\belowcaptionskip}{0pt}
+%% 注意：caption 包在 position=top 时语义相反——aboveskip 控制“题注→表体”，
+%% belowskip 控制“题注上方至版心上沿”
+%% 2026-11-07（第七轮）：表格行距 13.77 磅（范例 13.71）后，3.55 → 2.40 → 3.67，
+%% 使表 1 表题→表首行回到范例实测 19.55。
+\captionsetup[table]{aboveskip=3.67pt}
+\setlength{\belowcaptionskip}{2pt}
+\AtBeginDocument{\renewcommand{\figurename}{图}\renewcommand{\tablename}{表}}
+
+%% ---------- 7. 三线表 ----------
+%% 范例实测：粗线 w:sz=12 = 1.5 磅；细线 w:sz=4 = 0.5 磅（PDF 实测 0.48–0.50pt）。
+%% 注意《正文格式要求》写“中间框线 0.75 磅”，与范例冲突；按范例取 0.5 磅，
+%% 冲突记入 _工作记录/格式核对表.md 与 _工作记录/操作说明_内部节选.md。
+\setlength{\heavyrulewidth}{1.5pt}
+\setlength{\lightrulewidth}{0.5pt}
+\setlength{\cmidrulewidth}{0.5pt}
+\setlength{\aboverulesep}{0pt}
+\setlength{\belowrulesep}{0pt}
+\AtBeginEnvironment{longtable}{\fontsize{10.5pt}{16pt}\selectfont}
+\AtBeginEnvironment{tabular}{\fontsize{10.5pt}{16pt}\selectfont}
+
+%% ---------- 8. 页边距（范例实测：上下 2.54cm，左右 3.17cm） ----------
+\geometry{top=2.54cm,bottom=2.54cm,left=3.17cm,right=3.17cm,
+          headheight=13pt,headsep=0.45cm,footskip=0.655cm}
+
+%% 公式：居中排版，编号（1）（2）右对齐到版心右边界（主人指令 2026-11-06）
+%% 注意：范例实测公式为首行空两格（起点 x≈116.5），与主人“公式居中”指令冲突，
+%%       已按指令改为居中；若需回到范例版式，在 _quarto.yml 的 classoption 加回
+%%       fleqn，并在此设 \setlength{\mathindent}{2em}。详见操作说明第 10 节。
+%% 公式前间距：范例第 7 页正文 y=560.00 → 公式 y=576.00，16.00pt（同一测量法）。
+%% 模板原为 15.22，故 \abovedisplayskip 由 −4.5 调到 −3.7（+0.78）。
+\AtBeginDocument{%
+  \setlength{\abovedisplayskip}{-3.7pt}%
+  \setlength{\abovedisplayshortskip}{-3.7pt}%
+  \setlength{\belowdisplayskip}{0pt}%
+  \setlength{\belowdisplayshortskip}{0pt}%
+}
+
+%% ---------- 9. 页眉页脚 ----------
+%% 页眉：两行，小五(9pt)宋体，左对齐；第二行“题目：”后接论文题目。
+%% 横线：《正文格式要求》无页眉条款，范例 header XML 的 w:pBdr 为空（无横线），
+%%       两处均无明文，按 Word 页眉默认 0.75 磅细线（2026-11-07 主人指令）。
+%% 封面 \thispagestyle{empty} 不带页眉页脚；摘要、目录、正文均带。
+\providecommand{\zjgsuTitle}{}
+\pagestyle{fancy}
+%% 目录页由 tocloft 用 plain 样式，默认页脚只有页码、没有“- -”；改成与 fancy 一致
+\makeatletter\let\ps@plain\ps@fancy\makeatother
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.75pt}
+\fancyhead[L]{\songti\fontsize{9pt}{12.65pt}\selectfont
+  毕业论文（设计）：正文\\毕业论文（设计）题目：\zjgsuTitle}
+\fancyfoot[C]{\fontsize{9pt}{9pt}\selectfont -\ \thepage\ -}
+
+%% ---------- 10. 脚注：五号宋体，每页重新编号 ①②③ ----------
+\renewcommand{\thefootnote}{\ding{\numexpr171+\value{footnote}}}
+\renewcommand{\footnotesize}{\fontsize{10.5pt}{16pt}\selectfont}
+\AtBeginEnvironment{footnotesize}{\xiaowu}
+
+%% ---------- 11. 参考文献：五号，固定 20 磅，悬挂缩进 0.56cm ----------
+\renewcommand{\refname}{参考文献}
+\ifdefined\cslhangindent\setlength{\cslhangindent}{0.635cm}\fi
+\ifdefined\bibhang\setlength{\bibhang}{0.56cm}\fi
+\ifdefined\bibsep\setlength{\bibsep}{0pt}\fi
+%% 2026-11-07（第七轮续）：范例「参考文献」标题墨迹顶→首条墨迹顶 19.96 磅；
+%% 消 Scale 后模板为 22.95，补 −2.99 磅回到 19.96。
+%% 折行行距：显式锁 \baselineskip=20pt、\parskip=0pt（实测与默认行为一致，
+%% 防 Quarto 改模板时 list 环境重置；同字形墨迹量 [1] 折行 19.92＝范例 20.00−0.08）。
+\AtBeginEnvironment{CSLReferences}{\fontsize{10.5pt}{20pt}\selectfont\setlength{\baselineskip}{20pt}\setlength{\parskip}{0pt}\vspace*{-2.99pt}}
+
+%% ---------- 12. 超链接不显示颜色 ----------
+\AtBeginDocument{%
+  \hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=black,
+    filecolor=black
+  }%
+}
+
+%% ---------- 13. 开题报告的栏框（可跨页） ----------
+\newenvironment{zjgsuBox}{\begin{framed}}{\end{framed}}

@@ -1,0 +1,188 @@
+%% =====================================================================
+%% 浙江工商大学本科毕业论文（设计）Quarto/LaTeX 样式文件
+%% 依据：《浙江工商大学正文格式要求20260427.docx》
+%% 本文件只管格式，不写内容。学生一般不需要改这里。
+%% =====================================================================
+
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{etoolbox}
+\usepackage{zhnumber}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{caption}
+\usepackage{fancyhdr}
+\usepackage{pifont}
+\usepackage[perpage]{footmisc}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{framed}
+\usepackage{enumitem}
+\setlist[itemize]{itemsep=0pt,topsep=0pt,parsep=0pt,leftmargin=2em}
+
+%% ---------- 1. 中文字体：按操作系统自动降级 ----------
+%% 2026-11-07：复位 Quarto 模板默认的 Scale=MatchLowercase，字号严格等于 \fontsize
+\defaultfontfeatures{Scale=1}
+%% Windows: SimSun / SimHei；macOS: Songti SC / Heiti SC；
+%% Linux（本机）: Noto Serif/Sans CJK SC。找不到就退回 Fandol。
+\IfFontExistsTF{SimSun}
+  {\setCJKmainfont{SimSun}[AutoFakeBold=2.5]}
+  {\IfFontExistsTF{Songti SC}
+    {\setCJKmainfont{Songti SC}[AutoFakeBold=2.5]}
+    {\IfFontExistsTF{Noto Serif CJK SC}
+      {\setCJKmainfont{Noto Serif CJK SC}[AutoFakeBold=2.5]}
+      {\setCJKmainfont{FandolSong}}}}
+
+\IfFontExistsTF{SimHei}
+  {\setCJKsansfont{SimHei}}
+  {\IfFontExistsTF{Heiti SC}
+    {\setCJKsansfont{Heiti SC}}
+    {\IfFontExistsTF{Noto Sans CJK SC}
+      {\setCJKsansfont{Noto Sans CJK SC}}
+      {\setCJKsansfont{FandolHei}}}}
+
+%% 西文与阿拉伯数字：Times New Roman（找不到用 Times 等价字体）
+\IfFontExistsTF{Times New Roman}
+  {\setmainfont{Times New Roman}[Scale=1]}
+  {\setmainfont{TeX Gyre Termes}[Scale=1]}
+
+%% 日期里的“○”按中文全角圆排（2026-11-10）
+%% 封面日期写作“二○二六年十一月十一日”，其中的圈是 WHITE CIRCLE U+25CB，不在
+%% xeCJK 默认中文区段内，会被 Times 接走：字形窄一圈，左右各多出约 4 磅中西文间距，
+%% 印出来像“二 ○ 二”。归入 CJK 类后交宋体排，宽度与“〇”一致（16pt 下 15.94 磅）。
+\xeCJKDeclareCharClass{CJK}{"25CB}
+
+%% 正文用宋体、标题用黑体
+\providecommand{\songti}{}
+\providecommand{\heiti}{}
+\renewcommand{\songti}{\rmfamily}
+\renewcommand{\heiti}{\sffamily}
+
+%% ---------- 2. 字体号别名（中文习惯） ----------
+\newcommand{\xiaosi}{\fontsize{12pt}{20pt}\selectfont}   % 小四，固定行距 20 磅
+\newcommand{\sihao}{\fontsize{14pt}{28pt}\selectfont}    % 四号，2 倍行距
+\newcommand{\sanhao}{\fontsize{16pt}{20pt}\selectfont}   % 三号
+\newcommand{\wuhao}{\fontsize{10.5pt}{16pt}\selectfont}  % 五号
+\newcommand{\xiaowu}{\fontsize{9pt}{11pt}\selectfont}    % 小五
+
+%% ---------- 3. 正文行距：固定值 20 磅 ----------
+\renewcommand{\normalsize}{\fontsize{12pt}{20pt}\selectfont}
+\setlength{\parindent}{2em}         % 首行缩进两字符
+\linespread{1}
+%% 2026-11-10：与大论文模板一致，段间距归零；否则封面每段会多出约 9.4 磅
+\setlength{\parskip}{0pt}
+
+%% ---------- 4. 标题编号与格式 ----------
+%% 一级 一、 四号宋体加粗，居中，上下各空一行，2 倍行距
+%% 二级 （一） 小四宋体，左对齐空两格，不空行
+%% 三级 1. 小四宋体
+%% 四级 （1） 小四宋体，与正文连排
+\renewcommand{\thesection}{\zhnum{section}、}
+\renewcommand{\thesubsection}{（\zhnum{subsection}）}
+\renewcommand{\thesubsubsection}{\arabic{subsubsection}.}
+\renewcommand{\theparagraph}{（\arabic{paragraph}）}
+
+\titleformat{\section}[block]
+  {\centering\songti\fontsize{14pt}{28pt}\selectfont\bfseries}
+  {\thesection}{0.3em}{}
+\titlespacing{\section}{0pt}{20pt}{20pt}
+
+\titleformat{\subsection}[block]
+  {\songti\fontsize{12pt}{20pt}\selectfont}
+  {\thesubsection}{0.3em}{}
+\titlespacing{\subsection}{2em}{0pt}{0pt}
+
+\titleformat{\subsubsection}[block]
+  {\songti\fontsize{12pt}{20pt}\selectfont}
+  {\thesubsubsection}{0.3em}{}
+\titlespacing{\subsubsection}{2em}{0pt}{0pt}
+
+\titleformat{\paragraph}[runin]
+  {\songti\fontsize{12pt}{20pt}\selectfont}
+  {\theparagraph}{0em}{}
+\titlespacing*{\paragraph}{2em}{0pt}{0.5em}
+
+%% ---------- 5. 目录：到二级，小四宋体，固定 20 磅 ----------
+\AtBeginDocument{%
+  \renewcommand{\contentsname}{目\hspace{2em}录}%
+  \setcounter{tocdepth}{2}%
+}
+\renewcommand{\cfttoctitlefont}{\hspace*{\fill}\heiti\fontsize{16pt}{20pt}\selectfont}
+\renewcommand{\cftaftertoctitle}{\hspace*{\fill}\par}
+\renewcommand{\cftsecfont}{\songti\fontsize{12pt}{20pt}\selectfont}
+\renewcommand{\cftsecpagefont}{\fontsize{12pt}{20pt}\selectfont}
+\renewcommand{\cftsubsecfont}{\songti\fontsize{12pt}{20pt}\selectfont}
+\renewcommand{\cftsubsecpagefont}{\fontsize{12pt}{20pt}\selectfont}
+\setlength{\cftsecnumwidth}{36pt}
+\setlength{\cftsubsecnumwidth}{42pt}
+\setlength{\cftsubsecindent}{30.7pt}
+
+%% ---------- 6. 图表题注：五号宋体加粗，图下图题、表上表题 ----------
+\DeclareCaptionFont{wuhao}{\fontsize{10.5pt}{16pt}\selectfont}
+\captionsetup{
+  font=wuhao,
+  labelfont={bf},
+  textfont={bf},
+  labelsep=space,
+  labelformat=simple,
+  singlelinecheck=true
+}
+%% 中文图表名放到 \AtBeginDocument，避免被 babel/Quarto 模板覆盖
+%% 题注标签格式改为“图1”“表1”（校规不加空格），标签与题名之间空一格
+\DeclareCaptionLabelFormat{zhnum}{#1#2}
+\captionsetup{labelformat=zhnum}
+\AtBeginDocument{\renewcommand{\figurename}{图}\renewcommand{\tablename}{表}}
+
+%% ---------- 7. 三线表：上下 1.5 磅，中间 0.75 磅 ----------
+\setlength{\heavyrulewidth}{1.5pt}
+\setlength{\lightrulewidth}{0.75pt}
+\setlength{\cmidrulewidth}{0.75pt}
+\setlength{\aboverulesep}{0pt}
+\setlength{\belowrulesep}{0pt}
+\AtBeginEnvironment{longtable}{\fontsize{10.5pt}{16pt}\selectfont}
+\AtBeginEnvironment{tabular}{\fontsize{10.5pt}{16pt}\selectfont}
+
+%% ---------- 8. 页边距（与正文格式要求一致） ----------
+\geometry{top=2.54cm,bottom=2.54cm,left=3.17cm,right=3.17cm,headheight=13pt,headsep=0.45cm,footskip=0.655cm}
+
+%% 公式：居中排版，编号右对齐（与论文正文模板一致，classoption 不再用 fleqn）
+
+%% ---------- 9. 页眉页脚 ----------
+%% 页眉：两行小五(9pt)宋体、左对齐；横线按 Word 默认 0.75 磅（校规与范例均无明文，
+%% 2026-11-07 主人指令）。
+%% 第一行标明文档类型，第二行“毕业论文（设计）题目：”后接题目。
+%% 2026-11-10：封面标题按教务处 doc 原件改为“本科毕业论文开题报告”（去掉“（设计）”），
+%% 页眉第一行同步改为“毕业论文：开题报告”，免得封面与页眉两个说法。
+%% 封面用 \thispagestyle{empty} 不带页眉页脚。
+\providecommand{\zjgsuTitle}{}
+\pagestyle{fancy}
+\makeatletter\let\ps@plain\ps@fancy\makeatother
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.75pt}
+\fancyhead[L]{\songti\fontsize{9pt}{13pt}\selectfont
+  毕业论文：开题报告\\毕业论文（设计）题目：\zjgsuTitle}
+\fancyfoot[C]{\fontsize{9pt}{9pt}\selectfont -\ \thepage\ -}
+
+%% ---------- 10. 脚注：五号宋体，每页重新编号 ①②③ ----------
+\renewcommand{\thefootnote}{\ding{\numexpr171+\value{footnote}}}
+\renewcommand{\footnotesize}{\fontsize{10.5pt}{16pt}\selectfont}
+\AtBeginEnvironment{footnotesize}{\xiaowu}
+
+%% ---------- 11. 参考文献：五号，悬挂缩进由 CSL 的 hanging-indent 控制 ----------
+\renewcommand{\refname}{参考文献}
+
+%% ---------- 12. 超链接不显示颜色 ----------
+\AtBeginDocument{%
+  \hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=black,
+    filecolor=black
+  }%
+}
+
+%% ---------- 13. 开题报告的栏框（可跨页） ----------
+%% 2026-11-07：字号复位 Scale 后首框题目行仅差约 1 磅溢出，栏框内边距 3 → 2 磅即收进一行
+\setlength{\FrameSep}{2.5pt}
+\newenvironment{zjgsuBox}{\begin{framed}}{\end{framed}}
